@@ -7,16 +7,16 @@ Testing file: buyTesting.txt
 --- ---
 counts
 true_positive_count
-1
+2
 true_negative_count
-1
+0
 false_positive_count
-1
+2
 false_negative_count
-1
+0
 accuracy:  0.5
-sensitivity:  0.5
-specificity:  0.5
+sensitivity:  1.0
+specificity:  0.0
 precision:  0.5
 
 
@@ -30,17 +30,17 @@ Testing file: irisPCTesting.txt
 --- ---
 counts
 true_positive_count
-5
+15
 true_negative_count
-34
+30
 false_positive_count
-0
+4
 false_negative_count
-11
-accuracy:  0.78
-sensitivity:  0.3125
-specificity:  1.0
-precision:  1.0
+1
+accuracy:  0.9
+sensitivity:  0.9375
+specificity:  0.8823529411764706
+precision:  0.7894736842105263
 
 
 
@@ -52,14 +52,14 @@ Testing file: irisTesting.txt
 --- ---
 counts
 true_positive_count
-8
+16
 true_negative_count
-34
+33
 false_positive_count
-0
+1
 false_negative_count
-8
-accuracy:  0.84
-sensitivity:  0.5
-specificity:  1.0
-precision:  1.0
+0
+accuracy:  0.98
+sensitivity:  1.0
+specificity:  0.9705882352941176
+precision:  0.9411764705882353
