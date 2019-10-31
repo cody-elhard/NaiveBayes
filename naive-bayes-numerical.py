@@ -99,7 +99,7 @@ accuracy = (true_positive_count + true_negative_count) / total_test_rows
 print('accuracy: ', accuracy)
 # portion of testing data positives that were correcly identified
 sensitivity = true_positive_count / (true_positive_count + false_negative_count)
-print('sensitivity: ', sensitivity)
+print('sensitivity / recall: ', sensitivity)
 # portion of testing data negatives that were correctly identifified
 specificity = true_negative_count / (false_positive_count + true_negative_count)
 print('specificity: ', specificity)
