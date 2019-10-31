@@ -3,10 +3,19 @@ import numpy
 import math
 
 train_data = pandas.read_csv("buyTraining.txt", sep=" ", header=None)
-train_data.columns = ["column1", "column2", "column3", "column4", "label"]
-
 test_data = pandas.read_csv("buyTesting.txt", sep=" ", header=None)
-test_data.columns = ["column1", "column2", "column3", "column4", "label"]
+
+# Assign the columns arbritrary labels based on the length
+columns_array = []
+total_test_columns = test_data.shape[1]
+for i in range(total_test_columns - 1):
+  columns_array.append(i)
+# Set the last item in the row to be the label
+columns_array.append("label")
+
+# Set the columns on the pandas sets
+train_data.columns = columns_array
+test_data.columns = columns_array
 
 total_training_rows = train_data.shape[0]
 total_test_rows = test_data.shape[0]
@@ -32,8 +41,8 @@ for i in range(test_records):
   test_row = test_data.iloc[i]
 
   # Set this to 1, which prevents from division by zero
-  yes_prob = 0
-  no_prob = 0
+  yes_prob = 1
+  no_prob = 1
 
   for attribute, value in test_row.iteritems():
     # Training data where custom attribute is equal to value, given its a yes
@@ -41,8 +50,8 @@ for i in range(test_records):
     # Training data where custom attribute is equal to value, given its a no
     no_count = train_data[(train_data[attribute] == value) & (train_data['label'] == -1)].shape[0]
 
-    yes_prob = yes_count / total_training_rows
-    no_prob = no_count / total_training_rows
+    yes_prob *= (yes_count / total_training_rows)
+    no_prob *= (no_count / total_training_rows)
 
   predicted_class = 1 if yes_prob > no_prob else -1
   actual_class = class_labels.values[i]
