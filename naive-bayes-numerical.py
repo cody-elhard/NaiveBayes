@@ -3,10 +3,10 @@ import numpy
 
 debug = False
 
-trainingFile = "irisPCTraining.txt"
+trainingFile = "irisTraining.txt"
 train_data = pandas.read_csv(trainingFile, sep=" ", header=None)
 
-testingFile = "irisPCTesting.txt"
+testingFile = "irisTesting.txt"
 test_data = pandas.read_csv(testingFile, sep=" ", header=None)
 
 # Assign the columns arbritrary labels based on the length
@@ -41,16 +41,15 @@ true_negative_count = 0
 false_positive_count = 0 
 false_negative_count = 0
 
-def calculate_probability_density_function(value, mean, std):
-  exp = (-1 * ((value - mean) ** 2)) / ((2 * std) ** 2)
-  return (1 / (numpy.sqrt(2 * numpy.pi * std) ** 2)) * exp
+def normal_pdf(x, m, s):
+  return (1/(2 * numpy.pi * s**2)**0.5) * numpy.exp(-1 * (x-m)**2 / (2 * s**2))
 
 test_records = test_data.shape[0]
 for i in range(test_records):
   test_row = test_data.iloc[i]
   # Set these to 1, which prevents from division by zero
-  yes_prob = 0
-  no_prob = 0
+  yes_prob = 1
+  no_prob = 1
 
   for attribute, value in test_row.iteritems():
     # Training data where custom attribute is equal to value, given its a yes
@@ -63,8 +62,11 @@ for i in range(test_records):
     no_mean = numpy.average(numpy_array_no)
     no_standard_deviation = numpy.std(numpy_array_no)
 
-    yes_prob = calculate_probability_density_function(value, yes_mean, yes_standard_deviation)
-    no_prob = calculate_probability_density_function(value, no_mean, no_standard_deviation)
+    yes_prob *= normal_pdf(value, yes_mean, yes_standard_deviation)
+    no_prob *= normal_pdf(value, no_mean, no_standard_deviation)
+
+  yes_prob = yes_prob * yes_count
+  no_prob = no_prob * no_count
 
   predicted_class = 1 if yes_prob > no_prob else -1
   actual_class = class_labels.values[i]
